@@ -1,0 +1,256 @@
+{
+	"info": {
+		"_postman_id": "acb9c64d-87a2-4923-a671-2642499fb48f",
+		"name": "Cachengo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10142311"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "getProducts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URLBASE}}/products",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProductByID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URLBASE}}/products/4",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"products",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Name\": \"Gin Tonic\",\n    \"Description\": \"Gin Tonic\",\n    \"Price\": 1500\n}"
+						},
+						"url": {
+							"raw": "{{URLBASE}}/products",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Name\": \"Gin Tonic\",\n    \"Description\": \"Gin Tonic\",\n    \"Price\": 1500\n}"
+						},
+						"url": {
+							"raw": "{{URLBASE}}/products/3",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"products",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URLBASE}}/products/5",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"products",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "getCategory",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "GetCategoryByID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URLBASE}}/products/4",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"products",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Name\": \"Gin Tonic\",\n    \"Description\": \"Gin Tonic\",\n    \"Price\": 1500\n}"
+						},
+						"url": {
+							"raw": "{{URLBASE}}/products",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Name\": \"Gin Tonic\",\n    \"Description\": \"Gin Tonic\",\n    \"Price\": 1500\n}"
+						},
+						"url": {
+							"raw": "{{URLBASE}}/products/3",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"products",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URLBASE}}/products/5",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"products",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Principal",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URLBASE}}",
+					"host": [
+						"{{URLBASE}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URLBASE",
+			"value": "http://localhnost:300",
+			"type": "string"
+		}
+	]
+}
