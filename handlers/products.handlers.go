@@ -92,8 +92,8 @@ func GetProductId(w http.ResponseWriter, r *http.Request) {
 	}
 	for i, product := range data.Products {
 		if product.ID == productId {
-			w.WriteHeader(http.StatusOK)
 			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
 			json.NewEncoder(w).Encode(product)
 			return
 		} else if i == len(data.Products)-1 {

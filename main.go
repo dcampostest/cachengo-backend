@@ -15,6 +15,13 @@ func main() {
 	//Index Routes
 	router.HandleFunc("/", handlers.IndexRoute)
 
+	//Category Routes
+	router.HandleFunc("/categories", handlers.GetCategory).Methods("GET")
+	router.HandleFunc("/categories", handlers.CreateCategory).Methods("POST")
+	router.HandleFunc("/categories/{id}", handlers.GetCategoryID).Methods("GET")
+	router.HandleFunc("/categories/{id}", handlers.DeleteCategory).Methods("DELETE")
+	router.HandleFunc("/categories/{id}", handlers.UpdateCategory).Methods("PUT")
+
 	//Product Routes
 	router.HandleFunc("/products", handlers.GetProducts).Methods("GET")
 	router.HandleFunc("/products", handlers.CreateProduct).Methods("POST")
