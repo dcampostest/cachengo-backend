@@ -101,3 +101,11 @@ func GetProductId(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
+
+// function categorie template boostrap
+func Temp_createproduct(w http.ResponseWriter, r *http.Request) {
+	templateCreateCategorie.ExecuteTemplate(w, "create_product", nil)
+}
+func Temp_listproducts(w http.ResponseWriter, r *http.Request) {
+	templateCreateCategorie.ExecuteTemplate(w, "list_products", nil)
+}

@@ -1,0 +1,37 @@
+{{ define "list_products"}}
+{{template "header"}}
+
+
+<a name="" id="" class="btn btn-dark" href="/createproduct" role="button">New Product</a>
+<table class="table table-dark">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+      <th scope="col">Categorie</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Gin Tonic</td>
+      <td>blablabla gin</td>
+      <td>cocktails</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Limonada</td>
+      <td>Zumo de limon</td>
+      <td>Mocktasils</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Coca Cola</td>
+      <td>gaseosa linea cocacola 500 ml</td>
+      <td>Gaseosas</td>
+    </tr>
+  </tbody>
+</table>
+{{template "footer"}}
+{{end}}

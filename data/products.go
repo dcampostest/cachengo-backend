@@ -17,8 +17,8 @@ var Products = models.AllProducts{
 	},
 	{
 		ID:          3,
-		Name:        "Negroni",
-		Description: "Gin + Camparí + vermouth",
-		Price:       2000,
+		Name:        "Limonada",
+		Description: "Sumo de limon exprimido",
+		Price:       500,
 	},
 }

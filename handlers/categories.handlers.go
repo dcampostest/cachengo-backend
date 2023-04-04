@@ -6,11 +6,14 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"text/template"
 
 	"github.com/gorilla/mux"
 	"github.com/pedidosya/golan-rest-simple/data"
 	"github.com/pedidosya/golan-rest-simple/models"
 )
+
+var templateCreateCategorie = template.Must(template.ParseGlob("./templates/*"))
 
 func GetCategory(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -31,7 +34,6 @@ func CreateCategory(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(newCategory)
 }
-
 func DeleteCategory(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	categoryId, err := strconv.Atoi(vars["id"])
@@ -96,8 +98,16 @@ func GetCategoryID(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusOK)
 			json.NewEncoder(w).Encode(category)
 			return
-		} else if i >= len(data.Products)-1 {
+		} else if i == len(data.Products)-1 {
 			fmt.Fprintf(w, "No found ID:%v", categoryId)
 		}
 	}
+}
+
+// function categorie template boostrap
+func Temp_createcategorie(w http.ResponseWriter, r *http.Request) {
+	templateCreateCategorie.ExecuteTemplate(w, "create_category", nil)
+}
+func Temp_listcategories(w http.ResponseWriter, r *http.Request) {
+	templateCreateCategorie.ExecuteTemplate(w, "list_categories", nil)
 }
