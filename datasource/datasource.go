@@ -2,6 +2,7 @@ package datasource
 
 import (
 	"fmt"
+	"strconv"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
@@ -14,18 +15,20 @@ import (
 } */
 
 const (
-	getListProducs    string = "SELECT * FROM products"
-	getProductByID    string = ""
 	getListCategories string = "SELECT * FROM categories"
 	getCategoryByID   string = "SELECT * FROM categories WHERE id=?"
+	getCategoryByName string = "SELECT * FROM categories WHERE name=?"
 	createCategory    string = "INSERT INTO categories(name, description) VALUE (?, ?)"
 	deleteCategory    string = "DELETE FROM categories WHERE id=?"
 	updatecategory    string = "UPDATE categories SET name=?, description=? WHERE id=?"
+	getListProducts   string = "SELECT * FROM products"
+	getProductByID    string = "SELECT * FROM products WHERE id=?"
+	createProduct     string = "INSERT INTO products(name, description, price, id_category) VALUE (?, ?, ?, ?)"
+	deleteProduct     string = "DELETE FROM products WHERE id=?"
+	updateProduct     string = "UPDATE products SET name=?, description=?, price=?, id_category=? WHERE id=?"
 )
 
-/*var db = []models.DbConfiguration{
-	{User: "root", Pwd: "Ubuntu1234", Server: "localhost", Database: "db_cachengo",Port: 3306},
-}*/
+// DATASOURCE Categories
 
 func DBConnect() (connectdb *sqlx.DB) {
 	Driver := "mysql"
@@ -43,19 +46,6 @@ func DBConnect() (connectdb *sqlx.DB) {
 	}
 
 	return connectdb
-}
-
-// GetUserByToken returns user by token
-func GetListProducts() *[]models.Product {
-
-	db := DBConnect()
-	listProductsData := []models.Product{}
-	err := db.Select(&listProductsData, getListProducs)
-
-	if err != nil {
-		panic(err.Error())
-	}
-	return &listProductsData
 }
 
 func GetListCategories() []models.Category {
@@ -82,7 +72,6 @@ func GetListCategories() []models.Category {
 
 		listAllCategories = append(listAllCategories, category)
 	}
-	// fmt.Println(listAllCategories)
 	return listAllCategories
 }
 
@@ -122,7 +111,27 @@ func GetCategoryByID(id string) models.Category {
 		category.Name = name
 		category.Description = description
 	}
-	// fmt.Println(category)
+	return category
+}
+
+func GetCategoryByName(name string) models.Category {
+	category := models.Category{}
+	dbconnect := DBConnect()
+	getCategoryByName, err := dbconnect.Query(getCategoryByName, name)
+	if err != nil {
+		panic(err.Error())
+	}
+	for getCategoryByName.Next() {
+		var id int
+		var name, description string
+		err = getCategoryByName.Scan(&id, &name, &description)
+		if err != nil {
+			panic(err.Error())
+		}
+		category.ID = id
+		category.Name = name
+		category.Description = description
+	}
 	return category
 }
 
@@ -133,4 +142,92 @@ func UpdateCategory(id string, name string, description string) {
 		panic(err.Error())
 	}
 	updateRegistro.Exec(name, description, id)
+}
+
+// DATASOURCE Products
+
+func GetListProducts() []models.Product {
+
+	db := DBConnect()
+	product := models.Product{}
+	listAllProducts := []models.Product{}
+	category := models.Category{}
+
+	list, err := db.Query(getListProducts)
+	if err != nil {
+		panic(err.Error())
+	}
+	for list.Next() {
+		var id, id_category int
+		var name, description string
+		var price float32
+		err = list.Scan(&id, &name, &description, &price, &id_category)
+		if err != nil {
+			panic(err.Error())
+		}
+		category = GetCategoryByID(strconv.Itoa(id_category))
+		product.ID = id
+		product.Name = name
+		product.Description = description
+		product.Price = price
+		product.Category.ID = id_category
+		product.Category.Name = category.Name
+
+		listAllProducts = append(listAllProducts, product)
+	}
+	return listAllProducts
+}
+
+func CreateProduct(name string, description string, price string, idcategory string) {
+	dbconnect := DBConnect()
+	insertarRegistro, err := dbconnect.Prepare(createProduct)
+	if err != nil {
+		panic(err.Error())
+	}
+	insertarRegistro.Exec(name, description, price, idcategory)
+}
+
+func DeleteProduct(id string) {
+	dbconnect := DBConnect()
+	delRegistro, err := dbconnect.Prepare(deleteProduct)
+	if err != nil {
+		panic(err.Error())
+	}
+	delRegistro.Exec(id)
+}
+
+func GetProductByID(id string) models.Product {
+	product := models.Product{}
+	category := models.Category{}
+	dbconnect := DBConnect()
+	getProductByID, err := dbconnect.Query(getProductByID, id)
+	if err != nil {
+		panic(err.Error())
+	}
+	for getProductByID.Next() {
+		var id, id_category int
+		var name, description string
+		var price float32
+		err = getProductByID.Scan(&id, &name, &description, &price, &id_category)
+		if err != nil {
+			panic(err.Error())
+		}
+		category = GetCategoryByID(strconv.Itoa(id_category))
+		product.ID = id
+		product.Name = name
+		product.Description = description
+		product.Price = price
+		product.Category.ID = id_category
+		product.Category.Name = category.Name
+	}
+	return product
+}
+
+func UpdateProduct(id string, name string, description string, price string, id_category string) {
+	dbconnect := DBConnect()
+	updateRegistro, err := dbconnect.Prepare(updateProduct)
+	if err != nil {
+		panic(err.Error())
+	}
+	updateRegistro.Exec(name, description, price, id_category, id)
 }

@@ -2,35 +2,35 @@
 {{template "header"}}
 
 
-<a name="" id="" class="btn btn-dark" href="/createproduct" role="button">New Product</a>
+<a name="" id="" class="btn btn-dark" href="/createproduct" role="button">New Category</a>
 <table class="table table-dark">
   <thead>
     <tr>
       <th scope="col">id</th>
       <th scope="col">Name</th>
       <th scope="col">Description</th>
-      <th scope="col">Categorie</th>
+      <th scope="col">Price</th>
+      <th scope="col">Category</th>
+      <th scope="col">Action</th>
     </tr>
   </thead>
   <tbody>
+
+  {{range .}}
+    
     <tr>
-      <th scope="row">1</th>
-      <td>Gin Tonic</td>
-      <td>blablabla gin</td>
-      <td>cocktails</td>
+      <th scope="row">{{.ID}}</th>
+      <td>{{.Name}}</td>
+      <td>{{.Description}}</td>
+      <td>{{.Price}}</td>
+      <td>{{.Category.Name}}</td>
+      <td>
+        <a name="" id="" class="btn btn-warning" href="/updateproduct?id={{.ID}}" role="button">Update</a>
+        <a name="" id="" class="btn btn-danger" href="/deleteproduct?id={{.ID}}" role="button">Borrar</a>
+      </td>
     </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Limonada</td>
-      <td>Zumo de limon</td>
-      <td>Mocktasils</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Coca Cola</td>
-      <td>gaseosa linea cocacola 500 ml</td>
-      <td>Gaseosas</td>
-    </tr>
+
+  {{end}}
   </tbody>
 </table>
 {{template "footer"}}

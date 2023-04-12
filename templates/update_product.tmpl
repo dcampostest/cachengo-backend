@@ -1,0 +1,39 @@
+{{define "update_product"}}
+{{template "header"}}
+
+<div class="card">
+    <div class="card-header">
+        Update Product
+    </div>
+    <div class="card-body">
+        <form method="post" action="/updateproducts">
+            <div class="form-group">
+                <input type="hidden" class="form-control" id="id" name="id" value="{{.product.ID}}" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="">Name</label>
+                <input type="text" class="form-control" id="productName" name="productName" value="{{.product.Name}}">
+            </div>
+            <div class="form-group">
+                <label for="">Description</label>
+                <input type="text" class="form-control" id="productDescription" name="productDescription"  value="{{.product.Description}}">
+            </div>
+            <div class="form-group">
+                <label for="">Description</label>
+                <input type="text" class="form-control" id="productPrice" name="productPrice"  value="{{.product.Price}}">
+            </div>
+
+            <div class="form-group">
+                <label for="">Category</label>
+                <select class="form-control" name="productNameCategory" id="productNameCategory">
+                {{range .categories}}
+                    <option>{{.Name}}</option>
+                {{end}}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a href="/listproducts" class="btn btn-info" role="button">Cancel</a>
+        </form>
+    </div>
+{{template "footer"}}
+{{end}}
