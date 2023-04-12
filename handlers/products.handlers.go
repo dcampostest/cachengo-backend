@@ -9,12 +9,14 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/pedidosya/golan-rest-simple/data"
+	"github.com/pedidosya/golan-rest-simple/datasource"
 	"github.com/pedidosya/golan-rest-simple/models"
 )
 
 func GetProducts(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(data.Products)
+	datasource.GetListProducts()
+	//json.NewEncoder(w).Encode()
 }
 
 func CreateProduct(w http.ResponseWriter, r *http.Request) {

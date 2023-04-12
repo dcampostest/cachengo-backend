@@ -9,24 +9,24 @@
       <th scope="col">id</th>
       <th scope="col">Name</th>
       <th scope="col">Description</th>
+      <th scope="col">Action</th>
     </tr>
   </thead>
   <tbody>
+
+  {{range .}}
+    
     <tr>
-      <th scope="row">1</th>
-      <td>Gin Tonic</td>
-      <td>blablabla gin</td>
+      <th scope="row">{{.ID}}</th>
+      <td>{{.Name}}</td>
+      <td>{{.Description}}</td>
+      <td>
+        <a name="" id="" class="btn btn-warning" href="/updatecategory?id={{.ID}}" role="button">Update</a>
+        <a name="" id="" class="btn btn-danger" href="/deletecategory?id={{.ID}}" role="button">Borrar</a>
+      </td>
     </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Mocktasils</td>
-      <td>blasdbasldsadlb mocktails</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Gaseosas</td>
-      <td>blalbbalsd gaseosas</td>
-    </tr>
+
+  {{end}}
   </tbody>
 </table>
 {{template "footer"}}

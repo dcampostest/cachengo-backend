@@ -1,21 +1,23 @@
 package data
 
-import "github.com/pedidosya/golan-rest-simple/models"
+import (
+	"github.com/pedidosya/golan-rest-simple/models"
+)
 
 var Categories = models.AllCategories{
 	{
 		ID:          1,
 		Name:        "Gaseosas",
-		Description: "",
+		Description: "gaseosas",
 	},
 	{
 		ID:          2,
 		Name:        "Combos",
-		Description: "",
+		Description: "caombos",
 	},
 	{
 		ID:          3,
 		Name:        "Mocktails",
-		Description: "",
+		Description: "limonadas y pomeladas",
 	},
 }

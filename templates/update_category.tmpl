@@ -1,0 +1,26 @@
+{{define "update_category"}}
+{{template "header"}}
+
+<div class="card">
+    <div class="card-header">
+        Update Category
+    </div>
+    <div class="card-body">
+        <form method="post" action="/updatecategories">
+            <div class="form-group">
+                <input type="hidden" class="form-control" id="id" name="id" value="{{.ID}}" placeholder="">
+            </div>
+            <div class="form-group">
+                <label for="">Name:</label>
+                <input type="text" class="form-control" id="categoryName" name="categoryName" value="{{.Name}}">
+            </div>
+            <div class="form-group">
+                <label for="">Description:</label>
+                <input type="text" class="form-control" id="categoryDescription" name="categoryDescription"  value="{{.Description}}">
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a href="/listcategories" class="btn btn-info" role="button">Cancel</a>
+        </form>
+    </div>
+{{template "footer"}}
+{{end}}

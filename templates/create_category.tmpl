@@ -9,13 +9,14 @@
         <form method="post" action="/categories">
             <div class="form-group">
                 <label for="">Name:</label>
-                <input type="text" class="form-control" id="categorieName" placeholder="cocktails">
+                <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="cocktails">
             </div>
             <div class="form-group">
                 <label for="">Description:</label>
-                <input type="text" class="form-control" id="categorieDescription" placeholder="description in categorie">
+                <input type="text" class="form-control" id="categoryDescription" name="categoryDescription" placeholder="description in categorie">
             </div>
             <button type="submit" class="btn btn-primary">New Category</button>
+            <a href="/listcategories" class="btn btn-info" role="button">Cancel</a>
         </form>
     </div>
 {{template "footer"}}
