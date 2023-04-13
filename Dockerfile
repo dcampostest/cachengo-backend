@@ -9,8 +9,8 @@ RUN go mod download
 # Copy over Go source code
 COPY *.go ./
 # Run the Go build and output binary under cachengo-backend
-RUN go build -o /golan-rest-simple
+RUN go build -o /cachengo-backend
 # Make sure to expose the port the HTTP server is using
 EXPOSE 8080
 # Run the app binary when we run the container
-ENTRYPOINT ["/golan-rest-simple"]
+ENTRYPOINT ["/cachengo-backend"]
