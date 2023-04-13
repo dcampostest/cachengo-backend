@@ -37,6 +37,6 @@ func main() {
 	router.HandleFunc("/updateproduct", handlers.Temp_updateproduct).Methods(http.MethodGet, http.MethodOptions).Name("view update product")
 	router.HandleFunc("/deleteproduct", handlers.Temp_deleteproduct).Methods(http.MethodGet, http.MethodOptions).Name("view delete product")
 
-	fmt.Println("Server started on port ", 3000)
+	fmt.Println("Server started on port ", 8080)
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
