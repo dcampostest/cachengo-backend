@@ -7,50 +7,36 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/pedidosya/golan-rest-simple/handlers"
-	"github.com/rs/cors"
 )
 
 func main() {
 	router := mux.NewRouter().StrictSlash(true)
 
-	cors := cors.New(cors.Options{
-		AllowedOrigins: []string{"*"},
-		AllowedMethods: []string{
-			http.MethodPost,
-			http.MethodGet,
-			http.MethodDelete,
-			http.MethodPut,
-		},
-		AllowedHeaders:   []string{"*"},
-		AllowCredentials: false,
-	})
-
 	router.HandleFunc("/", handlers.IndexRoute)
 
 	//Category Routes
-	router.HandleFunc("/categories", handlers.GetCategory).Methods("GET", "OPTIONS")
-	router.HandleFunc("/categories", handlers.CreateCategory).Methods("POST", "OPTIONS")
-	router.HandleFunc("/deletecategories", handlers.DeleteCategory).Methods("POST", "OPTIONS")
-	router.HandleFunc("/updatecategories", handlers.UpdateCategory).Methods("POST", "OPTIONS")
+	router.HandleFunc("/categories", handlers.GetCategory).Methods(http.MethodGet, http.MethodOptions).Name("list Categories")
+	router.HandleFunc("/categories", handlers.CreateCategory).Methods(http.MethodPost, http.MethodOptions).Name("Create Categories")
+	router.HandleFunc("/deletecategories", handlers.DeleteCategory).Methods(http.MethodPost, http.MethodOptions).Name("delete Categories")
+	router.HandleFunc("/updatecategories", handlers.UpdateCategory).Methods(http.MethodPost, http.MethodOptions).Name("Update Categories")
 	//Categorie Template Boostrap
-	router.HandleFunc("/listcategories", handlers.Temp_listcategories)
-	router.HandleFunc("/createcategory", handlers.Temp_createcategorie)
-	router.HandleFunc("/updatecategory", handlers.Temp_updatecategory)
-	router.HandleFunc("/deletecategory", handlers.Temp_deletecategory)
+	router.HandleFunc("/listcategories", handlers.Temp_listcategories).Methods(http.MethodGet, http.MethodOptions).Name("view list Categories")
+	router.HandleFunc("/createcategory", handlers.Temp_createcategorie).Methods(http.MethodGet, http.MethodOptions).Name("view form create category")
+	router.HandleFunc("/updatecategory", handlers.Temp_updatecategory).Methods(http.MethodGet, http.MethodOptions).Name("view update category")
+	router.HandleFunc("/deletecategory", handlers.Temp_deletecategory).Methods(http.MethodGet, http.MethodOptions).Name("viewdelete category")
 
 	//Product Routes
-	router.HandleFunc("/products", handlers.GetProducts).Methods("GET", "OPTIONS")
-	router.HandleFunc("/productsbycategory", handlers.GetProductsByCategory).Methods("GET", "OPTIONS")
-	router.HandleFunc("/products", handlers.CreateProduct).Methods("POST", "OPTIONS")
-	router.HandleFunc("/deleteproducts", handlers.DeleteProduct).Methods("POST", "OPTIONS")
-	router.HandleFunc("/updateproducts", handlers.UpdateProduct).Methods("POST", "OPTIONS")
+	router.HandleFunc("/products", handlers.GetProducts).Methods(http.MethodGet, http.MethodOptions).Name("list products")
+	router.HandleFunc("/productsbycategory", handlers.GetProductsByCategory).Methods(http.MethodGet, http.MethodOptions).Name("get product list by category")
+	router.HandleFunc("/products", handlers.CreateProduct).Methods(http.MethodPost, http.MethodOptions).Name("Create product")
+	router.HandleFunc("/deleteproducts", handlers.DeleteProduct).Methods(http.MethodPost, http.MethodOptions).Name("delete product")
+	router.HandleFunc("/updateproducts", handlers.UpdateProduct).Methods(http.MethodPost, http.MethodOptions).Name("update prodyct")
 	//Categorie Template Boostrap
-	router.HandleFunc("/listproducts", handlers.Temp_listproducts)
-	router.HandleFunc("/createproduct", handlers.Temp_createproduct)
-	router.HandleFunc("/updateproduct", handlers.Temp_updateproduct)
-	router.HandleFunc("/deleteproduct", handlers.Temp_deleteproduct)
+	router.HandleFunc("/listproducts", handlers.Temp_listproducts).Methods(http.MethodGet, http.MethodOptions).Name("view list products")
+	router.HandleFunc("/createproduct", handlers.Temp_createproduct).Methods(http.MethodGet, http.MethodOptions).Name("view create product")
+	router.HandleFunc("/updateproduct", handlers.Temp_updateproduct).Methods(http.MethodGet, http.MethodOptions).Name("view update product")
+	router.HandleFunc("/deleteproduct", handlers.Temp_deleteproduct).Methods(http.MethodGet, http.MethodOptions).Name("view delete product")
 
 	fmt.Println("Server started on port ", 3000)
-	handler := cors.Handler(router)
-	log.Fatal(http.ListenAndServe(":3000", handler))
+	log.Fatal(http.ListenAndServe(":3000", router))
 }
