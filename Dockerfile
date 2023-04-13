@@ -1,16 +1,20 @@
-# Create build stage based on buster image
-FROM golang:1.16-buster AS builder
-# Create working directory under /app
+## We specify the base image we need for our
+## go application
+FROM golang:1.12.0-alpine3.9
+## We create an /app directory within our
+## image that will hold our application source
+## files
+RUN mkdir /app
+## We copy everything in the root directory
+## into our /app directory
+ADD . /app
+## We specify that we now wish to execute 
+## any further commands inside our /app
+## directory
 WORKDIR /app
-# Copy over all go config (go.mod, go.sum etc.)
-COPY go.* ./
-# Install any required modules
-RUN go mod download
-# Copy over Go source code
-COPY *.go ./
-# Run the Go build and output binary under cachengo-backend
-RUN go build -o /golan-rest-simple
-# Make sure to expose the port the HTTP server is using
-EXPOSE 8080
-# Run the app binary when we run the container
-ENTRYPOINT ["/golan-rest-simple"]
+## we run go build to compile the binary
+## executable of our Go program
+RUN go build -o main .
+## Our start command which kicks off
+## our newly created binary executable
+CMD ["/app/main"]
