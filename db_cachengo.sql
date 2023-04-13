@@ -27,7 +27,7 @@ CREATE TABLE `categories` (
   `name` varchar(255) NOT NULL,
   `description` varchar(1020) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +36,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (1,'Gin Tonic','blablaasda'),(2,'Gaseosas','blabla'),(3,'vinos','blabla');
+INSERT INTO `categories` VALUES (1,'Gin Tonic','La mejor Gintoneria'),(2,'Gaseosas','Línea Pepsi'),(3,'vinos','Bodegas Norton'),(16,'Mocktails','tragos sin alcohol'),(17,'Destilled Sours','Cóctel a base de huevo con zumo límon');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,7 +56,7 @@ CREATE TABLE `products` (
   PRIMARY KEY (`id`),
   KEY `id_category` (`id_category`),
   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`id_category`) REFERENCES `categories` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +65,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Gin Tonic Malaria','Gin Malaria, zumo de limon y Agua tonica paso de los toros',2000.00,1),(2,'Coca Cola','Lata de cocacola 350ml',400.00,2);
+INSERT INTO `products` VALUES (1,'Gin Tonic Malaria','Gin Malaria, zumo de limon y Agua tonica paso de los toros',2000.00,1),(2,'Coca Cola','Lata de cocacola 350ml',400.00,2),(4,'Limonada','Limonada realizada con jugo natural de frutas.',800.00,16),(5,'Pisco Sour','Pisco mistral + zumo de limon + clara de huevo + angostura',2000.00,17),(6,'Mirinda','500 ml',400.00,2);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -78,4 +78,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-12 14:36:55
+-- Dump completed on 2023-04-12 22:30:17

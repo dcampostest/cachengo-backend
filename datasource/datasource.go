@@ -15,17 +15,18 @@ import (
 } */
 
 const (
-	getListCategories string = "SELECT * FROM categories"
-	getCategoryByID   string = "SELECT * FROM categories WHERE id=?"
-	getCategoryByName string = "SELECT * FROM categories WHERE name=?"
-	createCategory    string = "INSERT INTO categories(name, description) VALUE (?, ?)"
-	deleteCategory    string = "DELETE FROM categories WHERE id=?"
-	updatecategory    string = "UPDATE categories SET name=?, description=? WHERE id=?"
-	getListProducts   string = "SELECT * FROM products"
-	getProductByID    string = "SELECT * FROM products WHERE id=?"
-	createProduct     string = "INSERT INTO products(name, description, price, id_category) VALUE (?, ?, ?, ?)"
-	deleteProduct     string = "DELETE FROM products WHERE id=?"
-	updateProduct     string = "UPDATE products SET name=?, description=?, price=?, id_category=? WHERE id=?"
+	getListCategories    string = "SELECT * FROM categories"
+	getCategoryByID      string = "SELECT * FROM categories WHERE id=?"
+	getCategoryByName    string = "SELECT * FROM categories WHERE name=?"
+	createCategory       string = "INSERT INTO categories(name, description) VALUE (?, ?)"
+	deleteCategory       string = "DELETE FROM categories WHERE id=?"
+	updatecategory       string = "UPDATE categories SET name=?, description=? WHERE id=?"
+	getListProducts      string = "SELECT * FROM products"
+	getProductByID       string = "SELECT * FROM products WHERE id=?"
+	getProductByCategory string = "SELECT * FROM products WHERE id_category=?"
+	createProduct        string = "INSERT INTO products(name, description, price, id_category) VALUE (?, ?, ?, ?)"
+	deleteProduct        string = "DELETE FROM products WHERE id=?"
+	updateProduct        string = "UPDATE products SET name=?, description=?, price=?, id_category=? WHERE id=?"
 )
 
 // DATASOURCE Categories
@@ -154,6 +155,38 @@ func GetListProducts() []models.Product {
 	category := models.Category{}
 
 	list, err := db.Query(getListProducts)
+	if err != nil {
+		panic(err.Error())
+	}
+	for list.Next() {
+		var id, id_category int
+		var name, description string
+		var price float32
+		err = list.Scan(&id, &name, &description, &price, &id_category)
+		if err != nil {
+			panic(err.Error())
+		}
+		category = GetCategoryByID(strconv.Itoa(id_category))
+		product.ID = id
+		product.Name = name
+		product.Description = description
+		product.Price = price
+		product.Category.ID = id_category
+		product.Category.Name = category.Name
+
+		listAllProducts = append(listAllProducts, product)
+	}
+	return listAllProducts
+}
+
+func GetListProductsByCategory(id_category string) []models.Product {
+
+	db := DBConnect()
+	product := models.Product{}
+	listAllProducts := []models.Product{}
+	category := models.Category{}
+
+	list, err := db.Query(getProductByCategory, id_category)
 	if err != nil {
 		panic(err.Error())
 	}

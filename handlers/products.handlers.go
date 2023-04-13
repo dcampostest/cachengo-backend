@@ -23,6 +23,14 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(listAllProducts)
 }
 
+func GetProductsByCategory(w http.ResponseWriter, r *http.Request) {
+	categoryName := r.URL.Query().Get("category")
+	category := datasource.GetCategoryByName(categoryName)
+	w.Header().Set("Content-Type", "application/json")
+	listAllProducts := datasource.GetListProductsByCategory(strconv.Itoa(category.ID))
+	json.NewEncoder(w).Encode(listAllProducts)
+}
+
 func CreateProduct(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		name := r.FormValue("productName")

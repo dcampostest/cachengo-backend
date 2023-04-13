@@ -40,6 +40,7 @@ func main() {
 
 	//Product Routes
 	router.HandleFunc("/products", handlers.GetProducts).Methods("GET", "OPTIONS")
+	router.HandleFunc("/productsbycategory", handlers.GetProductsByCategory).Methods("GET", "OPTIONS")
 	router.HandleFunc("/products", handlers.CreateProduct).Methods("POST", "OPTIONS")
 	router.HandleFunc("/deleteproducts", handlers.DeleteProduct).Methods("POST", "OPTIONS")
 	router.HandleFunc("/updateproducts", handlers.UpdateProduct).Methods("POST", "OPTIONS")
