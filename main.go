@@ -37,6 +37,9 @@ func main() {
 	router.HandleFunc("/updateproduct", handlers.Temp_updateproduct).Methods(http.MethodGet, http.MethodOptions).Name("view update product")
 	router.HandleFunc("/deleteproduct", handlers.Temp_deleteproduct).Methods(http.MethodGet, http.MethodOptions).Name("view delete product")
 
+	//Response JSON categories + products by category
+	router.HandleFunc("/all", handlers.GetAll).Methods(http.MethodGet, http.MethodOptions).Name("Get all products and categories")
+
 	fmt.Println("Server started on port ", 8080)
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

@@ -211,6 +211,41 @@ func GetListProductsByCategory(id_category string) []models.Product {
 	return listAllProducts
 }
 
+func GetAll() any {
+
+	listAllProductsByCategories := make(map[string]models.AllProducts)
+
+	listCate := GetListCategories()
+	for _, category := range listCate {
+		listAllProducts := []models.Product{}
+		product := models.Product{}
+		var idcategory = category.ID
+		var namecategory = category.Name
+		listPro := GetListProductsByCategory(strconv.Itoa(idcategory))
+
+		for _, prod := range listPro {
+			var id = prod.ID
+			var id_category = prod.Category.ID
+			var name = prod.Name
+			var description = prod.Description
+			var price = prod.Price
+
+			category = GetCategoryByID(strconv.Itoa(id_category))
+			product.ID = id
+			product.Name = name
+			product.Description = description
+			product.Price = price
+			product.Category.ID = id_category
+			product.Category.Name = category.Name
+			listAllProducts = append(listAllProducts, product)
+
+		}
+		listAllProductsByCategories[namecategory] = listAllProducts
+
+	}
+	return listAllProductsByCategories
+}
+
 func CreateProduct(name string, description string, price string, idcategory string) {
 	dbconnect := DBConnect()
 	insertarRegistro, err := dbconnect.Prepare(createProduct)
