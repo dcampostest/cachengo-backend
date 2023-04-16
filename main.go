@@ -1,45 +1,26 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
-	"github.com/pedidosya/golan-rest-simple/handlers"
 )
 
 func main() {
-	router := mux.NewRouter().StrictSlash(true)
+	// Define routes
+	router := mux.NewRouter()
+	setupRoutes(router)
+	port := ":8000"
 
-	router.HandleFunc("/", handlers.IndexRoute)
-
-	//Category Routes
-	router.HandleFunc("/categories", handlers.GetCategory).Methods(http.MethodGet, http.MethodOptions).Name("list Categories")
-	router.HandleFunc("/categories", handlers.CreateCategory).Methods(http.MethodPost, http.MethodOptions).Name("Create Categories")
-	router.HandleFunc("/deletecategories", handlers.DeleteCategory).Methods(http.MethodPost, http.MethodOptions).Name("delete Categories")
-	router.HandleFunc("/updatecategories", handlers.UpdateCategory).Methods(http.MethodPost, http.MethodOptions).Name("Update Categories")
-	//Categorie Template Boostrap
-	router.HandleFunc("/listcategories", handlers.Temp_listcategories).Methods(http.MethodGet, http.MethodOptions).Name("view list Categories")
-	router.HandleFunc("/createcategory", handlers.Temp_createcategorie).Methods(http.MethodGet, http.MethodOptions).Name("view form create category")
-	router.HandleFunc("/updatecategory", handlers.Temp_updatecategory).Methods(http.MethodGet, http.MethodOptions).Name("view update category")
-	router.HandleFunc("/deletecategory", handlers.Temp_deletecategory).Methods(http.MethodGet, http.MethodOptions).Name("viewdelete category")
-
-	//Product Routes
-	router.HandleFunc("/products", handlers.GetProducts).Methods(http.MethodGet, http.MethodOptions).Name("list products")
-	router.HandleFunc("/productsbycategory", handlers.GetProductsByCategory).Methods(http.MethodGet, http.MethodOptions).Name("get product list by category")
-	router.HandleFunc("/products", handlers.CreateProduct).Methods(http.MethodPost, http.MethodOptions).Name("Create product")
-	router.HandleFunc("/deleteproducts", handlers.DeleteProduct).Methods(http.MethodPost, http.MethodOptions).Name("delete product")
-	router.HandleFunc("/updateproducts", handlers.UpdateProduct).Methods(http.MethodPost, http.MethodOptions).Name("update prodyct")
-	//Categorie Template Boostrap
-	router.HandleFunc("/listproducts", handlers.Temp_listproducts).Methods(http.MethodGet, http.MethodOptions).Name("view list products")
-	router.HandleFunc("/createproduct", handlers.Temp_createproduct).Methods(http.MethodGet, http.MethodOptions).Name("view create product")
-	router.HandleFunc("/updateproduct", handlers.Temp_updateproduct).Methods(http.MethodGet, http.MethodOptions).Name("view update product")
-	router.HandleFunc("/deleteproduct", handlers.Temp_deleteproduct).Methods(http.MethodGet, http.MethodOptions).Name("view delete product")
-
-	//Response JSON categories + products by category
-	router.HandleFunc("/all", handlers.GetAll).Methods(http.MethodGet, http.MethodOptions).Name("Get all products and categories")
-
-	fmt.Println("Server started on port ", 8080)
-	log.Fatal(http.ListenAndServe(":8080", router))
+	server := &http.Server{
+		Handler: router,
+		Addr:    port,
+		// timeouts so the server never waits forever...
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+	}
+	log.Printf("Server started at %s", port)
+	log.Fatal(server.ListenAndServe())
 }

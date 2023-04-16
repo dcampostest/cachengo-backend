@@ -31,22 +31,27 @@ const (
 
 // DATASOURCE Categories
 
-func DBConnect() (connectdb *sqlx.DB) {
+func DBConnect() (db *sqlx.DB) {
 	Driver := "mysql"
 	Host := "tcp(127.0.0.1:3306)"
 	User := "root"
 	Password := "Ubuntu1234$"
 	DBName := "db_cachengo"
 
-	connectdb, err := sqlx.Open(Driver, fmt.Sprintf("%s:%s@%s/%s", User, Password, Host, DBName))
+	db, err := sqlx.Open(Driver, fmt.Sprintf("%s:%s@%s/%s", User, Password, Host, DBName))
 	if err != nil {
-		panic(err.Error())
-	}
-	if err = connectdb.Ping(); err != nil {
 		return nil
 	}
 
-	return connectdb
+	if db.Ping() != nil {
+		return nil
+	}
+
+	db.SetMaxOpenConns(100)  // The default is 0 (unlimited)
+	db.SetMaxIdleConns(50)   // defaultMaxIdleConns = 2
+	db.SetConnMaxLifetime(0) // 0, connections are reused forever.
+
+	return db
 }
 
 func GetListCategories() []models.Category {
@@ -211,7 +216,7 @@ func GetListProductsByCategory(id_category string) []models.Product {
 	return listAllProducts
 }
 
-func GetAll() any {
+func GetAll() *map[string]models.AllProducts {
 
 	listAllProductsByCategories := make(map[string]models.AllProducts)
 
@@ -243,7 +248,7 @@ func GetAll() any {
 		listAllProductsByCategories[namecategory] = listAllProducts
 
 	}
-	return listAllProductsByCategories
+	return &listAllProductsByCategories
 }
 
 func CreateProduct(name string, description string, price string, idcategory string) {

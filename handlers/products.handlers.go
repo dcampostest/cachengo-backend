@@ -18,20 +18,12 @@ type TemplateData struct {
 var templateProducts = template.Must(template.ParseGlob("./templates/*"))
 
 func GetProducts(w http.ResponseWriter, r *http.Request) {
-	setupCorsResponse(&w, r)
-	if (*r).Method == "OPTIONS" {
-		return
-	}
 	w.Header().Set("Content-Type", "application/json")
 	listAllProducts := datasource.GetListProducts()
 	json.NewEncoder(w).Encode(listAllProducts)
 }
 
 func GetProductsByCategory(w http.ResponseWriter, r *http.Request) {
-	setupCorsResponse(&w, r)
-	if (*r).Method == "OPTIONS" {
-		return
-	}
 	categoryName := r.URL.Query().Get("category")
 	category := datasource.GetCategoryByName(categoryName)
 	w.Header().Set("Content-Type", "application/json")
@@ -40,10 +32,6 @@ func GetProductsByCategory(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateProduct(w http.ResponseWriter, r *http.Request) {
-	setupCorsResponse(&w, r)
-	if (*r).Method == "OPTIONS" {
-		return
-	}
 	if r.Method == "POST" {
 		name := r.FormValue("productName")
 		description := r.FormValue("productDescription")
@@ -56,10 +44,6 @@ func CreateProduct(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteProduct(w http.ResponseWriter, r *http.Request) {
-	setupCorsResponse(&w, r)
-	if (*r).Method == "OPTIONS" {
-		return
-	}
 	if r.Method == "POST" {
 		id := r.FormValue("id")
 		datasource.DeleteProduct(id)
@@ -68,10 +52,6 @@ func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateProduct(w http.ResponseWriter, r *http.Request) {
-	setupCorsResponse(&w, r)
-	if (*r).Method == "OPTIONS" {
-		return
-	}
 	if r.Method == "POST" {
 		id := r.FormValue("id")
 		name := r.FormValue("productName")
@@ -86,27 +66,15 @@ func UpdateProduct(w http.ResponseWriter, r *http.Request) {
 
 // function Products template boostrap
 func Temp_createproduct(w http.ResponseWriter, r *http.Request) {
-	setupCorsResponse(&w, r)
-	if (*r).Method == "OPTIONS" {
-		return
-	}
 	listAllCategories := datasource.GetListCategories()
 	templateProducts.ExecuteTemplate(w, "create_product", listAllCategories)
 }
 func Temp_listproducts(w http.ResponseWriter, r *http.Request) {
-	setupCorsResponse(&w, r)
-	if (*r).Method == "OPTIONS" {
-		return
-	}
 	listAllProducts := datasource.GetListProducts()
 	templateProducts.ExecuteTemplate(w, "list_products", listAllProducts)
 }
 
 func Temp_updateproduct(w http.ResponseWriter, r *http.Request) {
-	setupCorsResponse(&w, r)
-	if (*r).Method == "OPTIONS" {
-		return
-	}
 	m := map[string]interface{}{}
 	m["product"] = models.Product{}
 	m["categories"] = []models.Category{}
@@ -118,10 +86,6 @@ func Temp_updateproduct(w http.ResponseWriter, r *http.Request) {
 }
 
 func Temp_deleteproduct(w http.ResponseWriter, r *http.Request) {
-	setupCorsResponse(&w, r)
-	if (*r).Method == "OPTIONS" {
-		return
-	}
 	idProduct := r.URL.Query().Get("id")
 	getProductByID := datasource.GetProductByID(idProduct)
 	templateProducts.ExecuteTemplate(w, "delete_product", getProductByID)
