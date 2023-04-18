@@ -11,7 +11,7 @@ import (
 func main() {
 	// Define routes
 	router := mux.NewRouter()
-	setupRoutes(router)
+	SetupRoutes(router)
 	port := ":8000"
 
 	server := &http.Server{
@@ -22,5 +22,5 @@ func main() {
 		ReadTimeout:  15 * time.Second,
 	}
 	log.Printf("Server started at %s", port)
-	log.Fatal(server.ListenAndServeTLS("/etc/letsencrypt/csr/0000_csr-certbot.pem", "/etc/letsencrypt/keys/0000_csr-certbot.pem"))
+	log.Fatal(server.ListenAndServeTLS("/etc/letsencrypt/csr/0000_csr-certbot.pem", "/etc/letsencrypt/csr/0000_csr-certbot.pem"))
 }
