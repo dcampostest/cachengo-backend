@@ -3,12 +3,34 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 	"text/template"
 
+	"github.com/gorilla/mux"
 	"github.com/pedidosya/golan-rest-simple/datasource"
 )
 
 var templateCreateCategorie = template.Must(template.ParseGlob("./templates/*"))
+
+// Helper functions for respond with 200 or 500 code
+func respondWithError(err error, w http.ResponseWriter) {
+	w.WriteHeader(http.StatusInternalServerError)
+	json.NewEncoder(w).Encode(err.Error())
+}
+
+func respondWithSuccess(data interface{}, w http.ResponseWriter) {
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(data)
+}
+
+func stringToInt64(s string) (int64, error) {
+	numero, err := strconv.ParseInt(s, 0, 64)
+	if err != nil {
+		return 0, err
+	}
+	return numero, err
+}
 
 func GetCategory(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -26,11 +48,9 @@ func CreateCategory(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteCategory(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "POST" {
-		id := r.FormValue("id")
-		datasource.DeleteCategory(id)
-		http.Redirect(w, r, "/listcategories", 301)
-	}
+	id := mux.Vars(r)["id"]
+	datasource.DeleteCategory(id)
+	http.Redirect(w, r, "/listcategories", 301)
 }
 
 func UpdateCategory(w http.ResponseWriter, r *http.Request) {

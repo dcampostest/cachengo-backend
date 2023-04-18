@@ -6,7 +6,7 @@
         Are you sure you want to delete?
     </div>
     <div class="card-body">
-        <form method="post" action="/deletecategories">
+        <form method="DELETE" action="/deletecategories/{{.ID}}">
             <div class="form-group">
                 <input type="hidden" class="form-control" id="id" name="id" value="{{.ID}}" placeholder="">
             </div>

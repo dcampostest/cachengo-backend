@@ -14,27 +14,27 @@ func setupRoutes(router *mux.Router) {
 	router.HandleFunc("/", handlers.IndexRoute)
 
 	//Category Routes
-	router.HandleFunc("/categories", handlers.GetCategory).Methods(http.MethodGet)
-	router.HandleFunc("/categoriesPost", handlers.CreateCategory).Methods(http.MethodPost)
-	router.HandleFunc("/deletecategories", handlers.DeleteCategory).Methods(http.MethodDelete)
-	router.HandleFunc("/updatecategories", handlers.UpdateCategory).Methods(http.MethodPut)
+	router.HandleFunc("/categories", handlers.GetCategory).Methods(http.MethodGet, http.MethodOptions)
+	router.HandleFunc("/categoriesPost", handlers.CreateCategory).Methods(http.MethodPost, http.MethodOptions)
+	router.HandleFunc("/deletecategories/{id}", handlers.DeleteCategory).Methods(http.MethodDelete, http.MethodOptions)
+	router.HandleFunc("/updatecategories/{id}", handlers.UpdateCategory).Methods(http.MethodPut, http.MethodOptions)
 	//Categorie Template Boostrap
-	router.HandleFunc("/listcategories", handlers.Temp_listcategories).Methods(http.MethodGet)
-	router.HandleFunc("/createcategory", handlers.Temp_createcategorie).Methods(http.MethodGet)
-	router.HandleFunc("/updatecategory", handlers.Temp_updatecategory).Methods(http.MethodGet)
-	router.HandleFunc("/deletecategory", handlers.Temp_deletecategory).Methods(http.MethodGet)
+	router.HandleFunc("/listcategories", handlers.Temp_listcategories).Methods(http.MethodGet, http.MethodOptions)
+	router.HandleFunc("/createcategory", handlers.Temp_createcategorie).Methods(http.MethodGet, http.MethodOptions)
+	router.HandleFunc("/updatecategory", handlers.Temp_updatecategory).Methods(http.MethodGet, http.MethodOptions)
+	router.HandleFunc("/deletecategory", handlers.Temp_deletecategory).Methods(http.MethodGet, http.MethodOptions)
 
 	//Product Routes
-	router.HandleFunc("/products", handlers.GetProducts).Methods(http.MethodGet)
-	router.HandleFunc("/productsbycategory", handlers.GetProductsByCategory).Methods(http.MethodGet)
-	router.HandleFunc("/productsPost", handlers.CreateProduct).Methods(http.MethodPost)
-	router.HandleFunc("/deleteproducts", handlers.DeleteProduct).Methods(http.MethodDelete)
-	router.HandleFunc("/updateproducts", handlers.UpdateProduct).Methods(http.MethodPut)
+	router.HandleFunc("/products", handlers.GetProducts).Methods(http.MethodGet, http.MethodOptions)
+	router.HandleFunc("/productsbycategory/{id}", handlers.GetProductsByCategory).Methods(http.MethodGet, http.MethodOptions)
+	router.HandleFunc("/productsPost", handlers.CreateProduct).Methods(http.MethodPost, http.MethodOptions)
+	router.HandleFunc("/deleteproducts/{id}", handlers.DeleteProduct).Methods(http.MethodDelete, http.MethodOptions)
+	router.HandleFunc("/updateproducts/{id}", handlers.UpdateProduct).Methods(http.MethodPut, http.MethodOptions)
 	//Categorie Template Boostrap
-	router.HandleFunc("/listproducts", handlers.Temp_listproducts).Methods(http.MethodGet)
-	router.HandleFunc("/createproduct", handlers.Temp_createproduct).Methods(http.MethodGet)
-	router.HandleFunc("/updateproduct", handlers.Temp_updateproduct).Methods(http.MethodGet)
-	router.HandleFunc("/deleteproduct", handlers.Temp_deleteproduct).Methods(http.MethodGet)
+	router.HandleFunc("/listproducts", handlers.Temp_listproducts).Methods(http.MethodGet, http.MethodOptions)
+	router.HandleFunc("/createproduct", handlers.Temp_createproduct).Methods(http.MethodGet, http.MethodOptions)
+	router.HandleFunc("/updateproduct", handlers.Temp_updateproduct).Methods(http.MethodGet, http.MethodOptions)
+	router.HandleFunc("/deleteproduct", handlers.Temp_deleteproduct).Methods(http.MethodGet, http.MethodOptions)
 	//Response JSON categories + products by category
 	router.HandleFunc("/all", handlers.GetAll).Methods(http.MethodGet)
 
@@ -50,7 +50,7 @@ func middlewareCors(next http.Handler) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, req *http.Request) {
 			// Just put some headers to allow CORS...
-			w.Header().Set("Access-Control-Allow-Origin", "http://localhost")
+			w.Header().Set("Access-Control-Allow-Origin", "http://localhost:8000")
 			w.Header().Set("Access-Control-Allow-Credentials", "true")
 			w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 			w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")

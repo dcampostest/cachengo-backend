@@ -22,5 +22,5 @@ func main() {
 		ReadTimeout:  15 * time.Second,
 	}
 	log.Printf("Server started at %s", port)
-	log.Fatal(server.ListenAndServe())
+	log.Fatal(server.ListenAndServeTLS("/etc/letsencrypt/csr/0000_csr-certbot.pem", "/etc/letsencrypt/keys/0000_csr-certbot.pem"))
 }
