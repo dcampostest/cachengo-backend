@@ -20,7 +20,10 @@ func GetAll(w http.ResponseWriter, r *http.Request) {
 	if (*r).Method == "OPTIONS" {
 		return
 	}
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	w.Header().Set("Access-Control-Allow-Origin", "Origin,X-Requested-With,Content-Type,Accept,content-type,application/json")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
+
 	listAllProductsByCategories := datasource.GetAll()
 	json.NewEncoder(w).Encode(listAllProductsByCategories)
 }

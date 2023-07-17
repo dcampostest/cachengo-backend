@@ -21,7 +21,7 @@ const (
 	createCategory       string = "INSERT INTO categories(name, description) VALUE (?, ?)"
 	deleteCategory       string = "DELETE FROM categories WHERE id=?"
 	updatecategory       string = "UPDATE categories SET name=?, description=? WHERE id=?"
-	getListProducts      string = "SELECT * FROM products"
+	getListProducts      string = "SELECT products.id, products.name, products.description, products.price, categories.name FROM products INNER JOIN categories ON products.id_category=categories.id;"
 	getProductByID       string = "SELECT * FROM products WHERE id=?"
 	getProductByCategory string = "SELECT * FROM products WHERE id_category=?"
 	createProduct        string = "INSERT INTO products(name, description, price, id_category) VALUE (?, ?, ?, ?)"
@@ -152,27 +152,25 @@ func GetListProducts() []models.Product {
 	db := DBConnect()
 	product := models.Product{}
 	listAllProducts := []models.Product{}
-	category := models.Category{}
 
 	list, err := db.Query(getListProducts)
 	if err != nil {
 		panic(err.Error())
 	}
 	for list.Next() {
-		var id, id_category int
-		var name, description string
+		var id int
+		var name, description, nameCategory string
 		var price float32
-		err = list.Scan(&id, &name, &description, &price, &id_category)
+
+		err = list.Scan(&id, &name, &description, &price, &nameCategory)
 		if err != nil {
 			panic(err.Error())
 		}
-		category = GetCategoryByID(strconv.Itoa(id_category))
 		product.ID = id
 		product.Name = name
 		product.Description = description
 		product.Price = price
-		product.Category.ID = id_category
-		product.Category.Name = category.Name
+		product.Category.Name = nameCategory
 
 		listAllProducts = append(listAllProducts, product)
 	}
