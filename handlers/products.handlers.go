@@ -32,10 +32,8 @@ func GetProductsByCategory(w http.ResponseWriter, r *http.Request) {
 	if (*r).Method == "OPTIONS" {
 		return
 	}
-	categoryName := r.URL.Query().Get("category")
-	category := datasource.GetCategoryByName(categoryName)
 	w.Header().Set("Content-Type", "application/json")
-	listAllProducts := datasource.GetListProductsByCategory(strconv.Itoa(category.ID))
+	listAllProducts := datasource.GetListProductsByCategory()
 	json.NewEncoder(w).Encode(listAllProducts)
 }
 

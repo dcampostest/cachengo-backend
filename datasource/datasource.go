@@ -23,7 +23,7 @@ const (
 	updatecategory       string = "UPDATE categories SET name=?, description=? WHERE id=?"
 	getListProducts      string = "SELECT products.id, products.name, products.description, products.price, categories.name FROM products INNER JOIN categories ON products.id_category=categories.id;"
 	getProductByID       string = "SELECT * FROM products WHERE id=?"
-	getProductByCategory string = "SELECT * FROM products WHERE id_category=?"
+	getProductByCategory string = "SELECT products.id, products.name, products.description, products.price, products.id_category, categories.name FROM categories INNER JOIN products ON categories.id=products.id_category"
 	createProduct        string = "INSERT INTO products(name, description, price, id_category) VALUE (?, ?, ?, ?)"
 	deleteProduct        string = "DELETE FROM products WHERE id=?"
 	updateProduct        string = "UPDATE products SET name=?, description=?, price=?, id_category=? WHERE id=?"
@@ -177,32 +177,30 @@ func GetListProducts() []models.Product {
 	return listAllProducts
 }
 
-func GetListProductsByCategory(id_category string) []models.Product {
+func GetListProductsByCategory() []models.Product {
 
 	db := DBConnect()
 	product := models.Product{}
 	listAllProducts := []models.Product{}
-	category := models.Category{}
 
-	list, err := db.Query(getProductByCategory, id_category)
+	list, err := db.Query(getProductByCategory)
 	if err != nil {
 		panic(err.Error())
 	}
 	for list.Next() {
 		var id, id_category int
-		var name, description string
+		var name, description, nameCategory string
 		var price float32
-		err = list.Scan(&id, &name, &description, &price, &id_category)
+		err = list.Scan(&id, &name, &description, &price, &id_category, &nameCategory)
 		if err != nil {
 			panic(err.Error())
 		}
-		category = GetCategoryByID(strconv.Itoa(id_category))
 		product.ID = id
 		product.Name = name
 		product.Description = description
 		product.Price = price
 		product.Category.ID = id_category
-		product.Category.Name = category.Name
+		product.Category.Name = nameCategory
 
 		listAllProducts = append(listAllProducts, product)
 	}
@@ -214,30 +212,18 @@ func GetAll() any {
 	listAllProductsByCategories := make(map[string]models.AllProducts)
 
 	listCate := GetListCategories()
+	listPro := GetListProductsByCategory()
+
 	for _, category := range listCate {
 		listAllProducts := []models.Product{}
-		product := models.Product{}
-		var idcategory = category.ID
-		var namecategory = category.Name
-		listPro := GetListProductsByCategory(strconv.Itoa(idcategory))
 
-		for _, prod := range listPro {
-			var id = prod.ID
-			var id_category = prod.Category.ID
-			var name = prod.Name
-			var description = prod.Description
-			var price = prod.Price
+		for _, product := range listPro {
 
-			category = GetCategoryByID(strconv.Itoa(id_category))
-			product.ID = id
-			product.Name = name
-			product.Description = description
-			product.Price = price
-			product.Category.ID = id_category
-			product.Category.Name = category.Name
-			listAllProducts = append(listAllProducts, product)
-
+			if product.Category.ID == category.ID {
+				listAllProducts = append(listAllProducts, product)
+			}
 		}
+		var namecategory = category.Name
 		listAllProductsByCategories[namecategory] = listAllProducts
 
 	}
