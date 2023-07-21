@@ -40,6 +40,6 @@ func main() {
 	//Response JSON categories + products by category
 	router.HandleFunc("/all", handlers.GetAll).Methods(http.MethodGet, http.MethodOptions).Name("Get all products and categories")
 
-	fmt.Println("Server started on port ", 3000)
-	log.Fatal(http.ListenAndServe(":8081", router))
+	fmt.Println("Server started on port ", 3006)
+	log.Fatal(http.ListenAndServe(":3006", router))
 }
