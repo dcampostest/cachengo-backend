@@ -47,7 +47,7 @@ func main() {
 	// }
 
 	fmt.Println("Server started on port ", 3006)
-	err := http.ListenAndServeTLS(":3006", "server.pem", "server.key", router)
+	err := http.ListenAndServeTLS(":3006", "/etc/letsencrypt/live/cachengoclub.com/cert.pem", "/etc/letsencrypt/live/cachengoclub.com/privkey.pem", router)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
