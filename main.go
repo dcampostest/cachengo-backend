@@ -10,6 +10,7 @@ import (
 )
 
 func main() {
+	//mux := http.NewServeMux()
 	router := mux.NewRouter().StrictSlash(true)
 
 	router.HandleFunc("/", handlers.IndexRoute)
@@ -40,6 +41,12 @@ func main() {
 	//Response JSON categories + products by category
 	router.HandleFunc("/all", handlers.GetAll).Methods(http.MethodGet, http.MethodOptions).Name("Get all products and categories")
 
+	srv := &http.Server{
+		Addr:    fmt.Sprintf(":%d", 3006),
+		Handler: router,
+	}
+
 	fmt.Println("Server started on port ", 3006)
-	log.Fatal(http.ListenAndServe(":3006", router))
+	//log.Fatal(http.ListenAndServe(":3006", router))
+	log.Fatal(srv.ListenAndServeTLS("localhost.csr", "localhost.key"))
 }
